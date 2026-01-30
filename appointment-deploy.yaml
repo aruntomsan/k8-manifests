@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appt-ms-deployment
+  labels:
+   app.kubernetes.io/name: appointment-service
+   app.kubernetes.io/version: "1.0.0"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: appointment-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: appointment-service
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+             app.kubernetes.io/name: appointment-service
+      containers:
+      - name: appointment
+        image: 014498640594.dkr.ecr.ap-south-1.amazonaws.com/dev-appointment:latest
+        ports:
+        - containerPort: 3001
+        resources:
+         requests:
+          cpu: "200m"
+          memory: "256Mi"
+          limits:
+           cpu: "500m"
+           memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /health                # The path to check for the liveness probe
+            port: 3001               
+          initialDelaySeconds: 15  
+          periodSeconds: 10        
+        readinessProbe:
+          httpGet:
+            path: /health                # The path to check for the readiness probe
+            port: 3001            
+          initialDelaySeconds: 5   
+          periodSeconds: 5   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appt-ms-nodeport
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: appointment-service
+  ports:
+    - protocol: TCP
+      port: 80          
+      targetPort: 3001 
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: appt-ms-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    app.kubernetes.io/name: appointment-service
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
