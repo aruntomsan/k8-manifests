@@ -71,7 +71,6 @@ spec:
     name: appt-ms-deployment
     apiVersion: apps/v1
     kind: Deployment
-    app.kubernetes.io/name: appointment-service
   minReplicas: 2
   maxReplicas: 10
   metrics:
