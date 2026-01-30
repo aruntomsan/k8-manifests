@@ -5,6 +5,7 @@ metadata:
   labels:
    app.kubernetes.io/name: appointment-service
    app.kubernetes.io/version: "1.0.0"
+  namespace: hospital-management
 spec:
   replicas: 2
   selector:
@@ -67,6 +68,7 @@ metadata:
   name: appt-ms-hpa
 spec:
   scaleTargetRef:
+    name: appt-ms-deployment
     apiVersion: apps/v1
     kind: Deployment
     app.kubernetes.io/name: appointment-service
