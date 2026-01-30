@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/aruntomsan/k8-manifests.git
     targetRevision: main
-    path: /
+    path: .
   destination:
     server: https://kubernetes.default.svc
     namespace: hospital-management

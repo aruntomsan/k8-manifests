@@ -30,11 +30,11 @@ spec:
         - containerPort: 3001
         resources:
          requests:
-          cpu: "200m"
-          memory: "256Mi"
+          cpu: 200m
+          memory: 256Mi
           limits:
-           cpu: "500m"
-           memory: "512Mi"
+           cpu: 500m
+           memory: 512Mi
         livenessProbe:
           httpGet:
             path: /health                # The path to check for the liveness probe
