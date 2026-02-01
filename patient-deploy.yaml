@@ -39,7 +39,7 @@ spec:
           httpGet:
             path: /health                # The path to check for the liveness probe
             port: 3000               # The port to check on
-          initialDelaySeconds: 15  # Wait this many seconds before starting the probe
+          initialDelaySeconds: 15  # Wait this many seconds before the probe
           periodSeconds: 10        # Check the probe every 10 seconds
         readinessProbe:
           httpGet:
