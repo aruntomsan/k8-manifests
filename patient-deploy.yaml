@@ -51,9 +51,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: patient-ms-nodeport
+  name: patient-ms-elb
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app.kubernetes.io/name: patient-service
   ports:
