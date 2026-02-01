@@ -51,9 +51,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: appt-ms-elb
+  name: appt-ms-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app.kubernetes.io/name: appointment-service
   ports:
