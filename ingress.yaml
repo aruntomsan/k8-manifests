@@ -14,7 +14,7 @@ spec:
     - http:
         paths:
           # Traffic to /patient goes to Patient Service
-          - path: /patient
+          - path: /patients
             pathType: Prefix
             backend:
               service:
@@ -22,7 +22,7 @@ spec:
                 port:
                   number: 80
           # Traffic to /appointment goes to Appointment Service
-          - path: /appointment
+          - path: /appointments
             pathType: Prefix
             backend:
               service:
